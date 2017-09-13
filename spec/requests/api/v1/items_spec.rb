@@ -14,17 +14,24 @@ describe "Items API" do
     expect(contents.first["name"]).to eq(items.first.name)
   end
 
+  it "can get a single item" do
+    item = create(:item)
 
+    get "/api/v1/items/#{item.id}"
+
+    expect(response).to be_success
+
+    content = JSON.parse(response.body)
+
+    expect(content["id"]).to eq(item.id)
+    expect(content["name"]).to eq(item.name)
+    expect(content["description"]).to eq(item.description)
+    expect(content["image_url"]).to eq(item.image_url)
+
+  end
 
 end
 
-#
-# We need an API for the application that can both read and write data. Start by focusing on functionality for items. All of this should happen in a dedicated, versioned controller.
-#
-# When I send a GET request to `/api/v1/items`
-# I receive a 200 JSON response containing all items
-# And each item has an id, name, description, and image_url but not the created_at or updated_at
-#
 # When I send a GET request to `/api/v1/items/1`
 # I receive a 200 JSON response containing the id, name, description, and image_url but not the created_at or updated_at
 #
