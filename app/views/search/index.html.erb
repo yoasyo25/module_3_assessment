@@ -1,0 +1,11 @@
+<p><%= @bestbuy_locations.count %> Total Stores</p>
+
+<% @bestbuy_locations.each do |location| %>
+  <ul class="stores">
+    <li class="name"><%= location.name %></li>
+    <li class="city"><%= location.city %></li>
+    <li class="distance"><%= location.distance %></li>
+    <li class="phone_number"><%= location.phone_number %></li>
+    <li class="store_type"><%= location.store_type %></li>
+  </ul>
+<% end %>
