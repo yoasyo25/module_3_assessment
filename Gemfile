@@ -8,16 +8,25 @@ gem "coffee-rails", "~> 4.0.0"
 gem "jquery-rails"
 gem "turbolinks"
 gem "jbuilder", "~> 2.0"
-gem "faker"
 gem "therubyracer"
 gem "less-rails-bootstrap"
 gem "minitest-rails"
-
-group :development do
-  gem "spring"
-end
+gem 'figaro'
+gem 'faraday'
 
 group :development, :test do
-  gem "minitest-rails-capybara"
-  gem "pry", :require => "pry"
+  gem 'pry'
+  gem 'factory_girl_rails'
+  gem 'rack_session_access'
+  gem 'rspec-rails'
+  gem 'capybara'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'faker'
+  gem 'launchy'
+  gem 'shoulda-callback-matchers', '~> 1.1.1'
+  gem 'shoulda-matchers', '~> 3.1'
 end
