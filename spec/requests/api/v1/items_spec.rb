@@ -55,6 +55,5 @@ describe "Items API" do
     expect(content["name"]).to eq(valid_attributes[:name])
     expect(content["description"]).to eq(valid_attributes[:description])
     expect(content["image_url"]).to eq(valid_attributes[:image_url])
-
   end
 end

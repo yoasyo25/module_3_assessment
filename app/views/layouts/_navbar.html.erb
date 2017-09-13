@@ -21,4 +21,12 @@
       </li>
     </ul>
   </div>
+  <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <%= form_tag search_path, method: :get do  %>
+          <%= text_field_tag :search, params[:search] %>
+          <%= submit_tag "Search", :name => nil %>
+          <% end %>
+          </div>
+      </form>
 </nav>
