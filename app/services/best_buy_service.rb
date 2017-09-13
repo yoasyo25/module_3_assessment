@@ -14,4 +14,15 @@ class BestBuyService
     new(zip).find_closeby_stores(zip)
   end
 
+  def store_count(zip)
+    response = @conn.get("stores((area(#{@zip},25)))?apiKey=#{ENV["API_KEY"]}")
+    binding.pry
+    result = JSON.parse(response.bod, symbolize_names: true)
+  end
+
+  def self.store_count(zip)
+    new(zip).store_count(zip)
+  end
+
+
 end

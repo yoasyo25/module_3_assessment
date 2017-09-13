@@ -16,4 +16,5 @@ class BestBuyStore
       new(result)
     end
   end
+
 end
