@@ -15,6 +15,7 @@ gem 'figaro'
 gem 'faraday'
 
 group :development, :test do
+  gem 'byebug'
   gem 'pry'
   gem 'factory_girl_rails'
   gem 'rack_session_access'
@@ -23,7 +24,6 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara'
   gem 'database_cleaner'
   gem 'faker'
   gem 'launchy'
