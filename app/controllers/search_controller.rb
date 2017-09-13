@@ -1,44 +1,48 @@
 class SearchController < ApplicationController
 
   def index
-    @zip = params[:search]
+    @bestbuy_locations = BestBuyStore.find_closeby_stores(zip)
+  end
 
-    @conn = Faraday.new(url: "https://api.bestbuy.com/v1")
-    response = @conn.get ("stores((area(#{@zip},25)))?apiKey=#{ENV["API_KEY"]}&show=city,longName,phone,distance,storeType&pageSize=20&format=json")
+  private
+    def zip
+      params[:search]
+    end
+end
 
-    results = JSON.parse(response.body, symbolize_names: true)[:stores]
-    binding.pry
-    @bestbuy_locations = results.map do |result|
-      BestBuyStore.new(result)
+class BestBuyStore
+  attr_reader :name, :city, :distance, :phone_number, :store_type
+
+  def initialize(attributes = {})
+    @name = attributes[:longName]
+    @city = attributes[:city]
+    @distance = attributes[:distance]
+    @phone_number = attributes[:phone]
+    @store_type = attributes[:storeType]
+  end
+
+  def self.find_closeby_stores(zip)
+    results = BestBuyService.find_closeby_stores(zip)
+
+    results.map do |result|
+      new(result)
     end
   end
 end
 
-class BestBuyStore
+class BestBuyService
 
-  attr_reader :name, :city, :distance, :phone_number, :store_type
+  def initialize(zip)
+    @zip = zip
+    @conn = Faraday.new(url: "https://api.bestbuy.com/v1")
+  end
 
-  def initialize(attributes = {})
-    @name = attributes[]
+  def find_closeby_stores(zip)
+    response = @conn.get ("stores((area(#{@zip},25)))?apiKey=#{ENV["API_KEY"]}&show=city,longName,phone,distance,storeType&pageSize=20&format=json")
+    results  = JSON.parse(response.body, symbolize_names: true)[:stores]
+  end
 
-
+  def self.find_closeby_stores(zip)
+    new(zip).find_closeby_stores(zip)
+  end
 end
-
-
-{
-  "from": 1,
-  "to": 17,
-  "currentPage": 1,
-  "total": 17,
-  "totalPages": 1,
-  "queryTime": "0.022",
-  "totalTime": "0.037",
-  "partial": false,
-  "canonicalUrl": "/v1/stores((area(\"80202\",25)))?show=city,longName,phone,storeType&pageSize=20&format=json&apiKey=445jt4mb4gsenju48n2ndu8d",
-  "stores": [
-    {
-      "city": "Denver",
-      "longName": "Cherry Creek Shopping Center",
-      "phone": "303-270-9189",
-      "storeType": "Mobile SAS"
-    },

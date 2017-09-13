@@ -11,7 +11,7 @@ feature "User searches for bestbuy stores" do
 
     expect(page).to have_content("17 Total Stores")
 
-    within(first(".store")) do
+    within(first(".stores")) do
       expect(page).to have_css(".name")
       expect(page).to have_css(".city")
       expect(page).to have_css(".distance")
