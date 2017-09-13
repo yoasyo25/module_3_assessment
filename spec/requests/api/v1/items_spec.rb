@@ -41,10 +41,20 @@ describe "Items API" do
     expect{Item.find(item.id)}.to raise_exception(ActiveRecord::RecordNotFound)
   end
 
-end
+  it "can post a singel item" do
+    valid_attributes = { item: { name: "new_name",
+                         description: "new_description",
+                         image_url: "new_image" } }
 
-# When I send a POST request to `/api/v1/items` with a name, description, and image_url
-# I receive a 201 JSON  response if the record is successfully created
-# And I receive a JSON response containing the id, name, description, and image_url but not the created_at or updated_at
-#
-# * Verify that your non-GET requests work using Postman or curl. (Hint: `ActionController::API`). Why doesn't the default `ApplicationController` support POST and PUT requests?
+    post "/api/v1/items", params: { item: valid_attributes }
+
+    new_item = Item.last
+    content = JSON.parse(response.body)
+    expect(response.status).to eq(201)
+
+    expect(content["name"]).to eq(valid_attributes[:name])
+    expect(content["description"]).to eq(valid_attributes[:description])
+    expect(content["image_url"]).to eq(valid_attributes[:image_url])
+
+  end
+end
